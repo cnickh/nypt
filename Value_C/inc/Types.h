@@ -41,8 +41,8 @@ typedef struct Value_t{
 
 typedef struct line_t {
 
-  struct line_t *next;
-  word this;
+  // struct line_t *next;  (line)(cur->this+len);
+  // word this; (word)(next+1);
   bool used;
   uint len;
 

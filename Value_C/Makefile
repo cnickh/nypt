@@ -13,6 +13,9 @@ OBJ0 = $(patsubst %,$(ODIR)/%,$(_OBJ0))
 _OBJ1 = adv_test.o Value.o Genesis.o Bit.o Util.o Page.o
 OBJ1 = $(patsubst %,$(ODIR)/%,$(_OBJ1))
 
+_OBJ2 = page_test.o Value.o Genesis.o Bit.o Util.o Page.o
+OBJ2 = $(patsubst %,$(ODIR)/%,$(_OBJ2))
+
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
@@ -20,6 +23,9 @@ basic: $(OBJ0)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 advance: $(OBJ1)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+page: $(OBJ2)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
