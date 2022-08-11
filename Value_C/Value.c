@@ -9,14 +9,14 @@ Value add(Value a, Value b, bool inplace){
   //   return res;
   // }
 
-  Value carry,res,next_carry;
+  Value carry, res, next_carry;
 
   if(inplace == Y){
     carry = op(a,b,AND,N);
     res = op(a,b,XOR,Y);
   } else {
-    res = op(a,b,XOR,N);
     carry = op(a,b,AND,N);
+    res = op(a,b,XOR,N);
   }
 
   while(isZero(carry)!=Y){
@@ -121,7 +121,7 @@ bool max_cmp(Value a, Value b){
 }
 
 
-Value mlt(Value a, Value b){
+Value mlt(Value a, Value b, bool inplace){
 
   // if(a.sign!=b.sign){
   //   a = makeValue(a.value,a.len,N);
@@ -139,7 +139,11 @@ Value mlt(Value a, Value b){
   destroy(fac0);
   fac0 = shift(b,1,L,N);
   destroy(fac1);
-  fac1 = shift(a,1,R,N);
+  if(inplace == Y){
+    fac1 = shift(a,1,R,Y);
+  }else{
+    fac1 = shift(a,1,R,N);
+  }
 
   while(isZero(fac0)!=Y){
 
@@ -188,6 +192,38 @@ Value dv(Value a, Value b){
   destroy(div);
   destroy(remainder);
   destroy(one);
+
+  return res;
+}
+
+Value pwr(Value a, Value b){
+
+  Value res = fromUlong(1);
+
+  Value pow = cpy(b);
+  Value dest = cpy(a);
+
+  while(isZero(pow)!=Y){
+
+    byte sig = pow.value[0]&1;
+    if(sig==1){
+      res = mlt(res,dest,Y);
+    }
+
+    dest = mlt(dest,dest,Y);
+
+    pow = shift(pow, 1, L, Y);
+
+  }
+  destroy(pow);
+  destroy(dest);
+
+  return res;
+}
+
+Value lg(Value a, Value b){
+  Value res = emptyValue(1);
+
 
   return res;
 }

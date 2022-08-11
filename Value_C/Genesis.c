@@ -75,7 +75,7 @@ Value fromUlong(long long num){
 Value cpy(Value a){
   Value c;
   c.len = a.len;
-  c.sign = a.len;
+  c.sign = a.sign;
   c.value = draw(a.len);
 
   for(int i=0;i<a.len;i++){

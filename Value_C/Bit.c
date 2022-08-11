@@ -152,10 +152,13 @@ Value shift(Value dest, uint magnitude, bool direction, bool inplace){
 }
 
 bool isZero(Value a){
+  //printf("start\n");
   for(uint i=0;i<a.len;i++){
     if(a.value[i]!=0){
+      //printf("end\n");
       return N;
     }
   }
+  //printf("end\n");
   return Y;
 }

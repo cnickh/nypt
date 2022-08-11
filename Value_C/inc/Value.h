@@ -70,15 +70,15 @@ Value sub(Value a, Value b, bool inplace);
 
 bool max_cmp(Value a, Value b);
 
-Value mlt(Value a, Value b);
+Value mlt(Value a, Value b, bool inplace);
 
 Value dv(Value a, Value b);
+
+Value pwr(Value a, Value b);
 //
-// Value pwr(Value a, Value b);
+// Value lg(Value a, Value b, bool inplace);
 //
-// Value lg(Value a, Value b);
-//
-// Value mod(Value a, Value b);
+// Value mod(Value a, Value b, bool inplace);
 //
 // Value phi(Value a);
 

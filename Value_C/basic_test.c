@@ -72,7 +72,7 @@ int main(){
       destroy(res1);
 
 
-      Value _mlt = mlt(val1,val0);
+      Value _mlt = mlt(val1,val0,N);
       Value res2 = fromUlong(i*q);
       char *m = hex(_mlt);
       char *mh = hex(res2);
@@ -84,7 +84,6 @@ int main(){
 
 
       Value _dv = dv(val0,val1);
-      // print_page();
       Value res3 = fromUlong(i/q);
       char *d = hex(_dv);
       char *dh = hex(res3);

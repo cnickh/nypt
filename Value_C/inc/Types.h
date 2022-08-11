@@ -37,7 +37,7 @@ typedef struct Value_t{
 
 //Types for memory management
 #define BOOK_SIZE 64
-#define PAGE_SIZE 475
+#define PAGE_SIZE 1024
 
 typedef struct line_t {
 
