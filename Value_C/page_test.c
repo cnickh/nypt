@@ -16,13 +16,19 @@ int main(){
   print_page();
 
   printf("[3]\n");
+  print_page();
   erase(mem0);
+  print_page();
   erase(mem1);
+  print_page();
   erase(mem2);
+  print_page();
   erase(mem3);
+  print_page();
 
 
   printf("[4]\n");
   print_page();
 
+  close();
 }

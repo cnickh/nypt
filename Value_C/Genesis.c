@@ -14,11 +14,13 @@ Value emptyValue(uint len){
 
 Value makeValue(word value, uint len, bool sign){
 
+
   Value val;
 
   val.value = shrink(len,value);
   val.sign = sign;
   val.len = len;
+
 
   return val;
 }

@@ -20,6 +20,7 @@
 #define R 'R'
 #define L 'L'
 
+//number of bits in a byte/char
 #define BYTE_SIZE 8
 
 typedef unsigned char byte;
@@ -36,13 +37,15 @@ typedef struct Value_t{
 } Value;
 
 //Types for memory management
+
+//number of pages
 #define BOOK_SIZE 64
+
+//number of bytes per page
 #define PAGE_SIZE 1024
 
 typedef struct line_t {
 
-  // struct line_t *next;  (line)(cur->this+len);
-  // word this; (word)(next+1);
   bool used;
   uint len;
 

@@ -94,7 +94,6 @@ Value neg(Value dest, bool inplace){
 }
 
 Value shift(Value dest, uint magnitude, bool direction, bool inplace){
-  // printf("SHIFT\n");
 
   word a = dest.value;
   uint len = dest.len;
@@ -111,6 +110,7 @@ Value shift(Value dest, uint magnitude, bool direction, bool inplace){
 
   uint o=0;
   uint i=0;
+
 
   switch(direction){
 
@@ -138,10 +138,12 @@ Value shift(Value dest, uint magnitude, bool direction, bool inplace){
 
   }
 
+
   if(inplace == Y){
     erase(dest.value);
     dest.value = temp;
     dest.len = size;
+
     return dest;
   } else {
   //  print_page();

@@ -1,7 +1,8 @@
 #include "Page.h"
 
 #define this(cur) ((word)(cur+1))
-#define next(cur) ((line)((word)(cur+1) + cur->len))
+#define next(cur) ((line)(this(cur) + cur->len))
+#define size(cur) (cur->len + LINE_SIZE)
 
 int pages=-1;
 page *book=NULL;
@@ -16,9 +17,7 @@ uint get_line_count(){
   uint count=0;
   line cur = p->head;
   while(cur->used!=E){
-    //if(cur->used==Y){
-      count++;
-    //}
+    count++;
     cur = next(cur);
   }
   return count;
@@ -31,8 +30,6 @@ void new_page(){
   start->space = sizeof(struct page_t);
   start->head = (line)(start+1);
   start->head->used = E;
-  // start->head->this = (word)(start->head+1);
-  // start->head->next = NULL;
 
   pages++;
   book[pages] = start;
@@ -46,20 +43,31 @@ void close(){
 }
 
 void *draw(uint len){
+  //printf("Draw\n");
+  //print_page();
   if(pages == -1){printf("DERROR NO PAGE\n");return NULL;}
   page p = book[pages];
 
   line cur = p->head;
 
-  while(cur->used!=N && cur->used!=E){
+  // while(cur->used != E){
+  //   cur = next(cur);
+  // }
 
-    //printf("Getting next...\n");
+  while(check(cur,len)==N){
+    if(cur->used == E){break;}
     cur = next(cur);
+  }
 
+  if(cur->used != E){
+    cur->used = Y;
+    // printf("End - d0\n");
+    // print_page();
+    return this(cur);
   }
 
   uint new_mem = LINE_SIZE+len+p->space;
-  if(new_mem > PAGE_SIZE){printf("[%d]PAGE FULL :(\n",pages);print_page();return NULL;}
+  if(new_mem > PAGE_SIZE){printf("[%d]PAGE FULL :( %d\n",pages,get_space());print_page();return NULL;}
   p->space = new_mem;
 
   cur->used = Y;
@@ -67,50 +75,68 @@ void *draw(uint len){
 
   next(cur)->used = E;
 
+  //printf("End -d1\n");
+  //print_page();
   return this(cur);
 }
 
+bool check(line cur, uint len){
+
+
+  if(
+    (cur->used==N) && (len <= cur->len)
+  ){
+    return Y;
+  }else{
+    return N;
+  }
+}
+
 void erase(void *drawing){
-  // printf("Erasing (%d)\n",drawing);
+  //printf("Erase\n");
+  //print_page();
+
+
   if(pages == -1){printf("EERROR NO PAGE\n");return;}
   page p = book[pages];
-
-  // printf("ERASE\n");
-  // print_page();
-
-  line cur = p->head;
   line breakLine = NULL;
+  line cur = p->head;
+  uint freed = 0;
+
   while(this(cur)!=drawing){
+    if(cur->used == E){printf("EERROR: LINE NOT FOUND\n");return;}
 
-    if(cur->used == Y){
-      breakLine = NULL;
-    }else{
-      if(breakLine == NULL){breakLine = cur;}
-    }
+    if(cur->used == N && breakLine == NULL){breakLine = cur;freed+=size(cur);}
+    else if(cur->used == Y){breakLine = NULL;freed=0;}
+    else{freed+=size(cur);}
 
-    // if(cur->next==NULL){printf("EERROR: LINE NOT FOUND\n");return;}
     cur = next(cur);
   }
 
   if(cur->used==N){printf("EERROR: LINE ALREADY ERASED\n");return;}
-  cur->used = N;
 
-  // if(cur->next->next==NULL){
-  //   if(breakLine!=NULL){
-  //     cur = breakLine;
-  //     while(cur->next!=NULL)
-  //     {p->space-=(cur->len+LINE_SIZE);cur=cur->next;}
-  //     breakLine->next = NULL;
-  //   }else{
-  //     p->space-=(cur->len+LINE_SIZE);
-  //     cur->next=NULL;
-  //   }
-  // }
+  if(breakLine != NULL){
 
-  // printf("DONE\n");
+    if(next(cur)->used == E){
+      breakLine->used = E;
+      p->space-=(freed+size(cur));
+    }else{
+      cur->used = N;
+    }
+
+  }else{
+
+    if(next(cur)->used == E){
+      cur->used = E;
+      p->space-=size(cur);
+    }else{
+      cur->used = N;
+    }
+
+  }
+
+  // printf("End - e\n");
   // print_page();
-  // printf("\n");
-
 }
 
 // void heal(){

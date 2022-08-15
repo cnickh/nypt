@@ -18,59 +18,64 @@ int main(){
       printf("Round: %d\n",r++);
       printf("Space: %d\n",get_space());
       printf("Lines: %d\n",get_line_count());
+
       Value val0 = fromUlong(i);
       Value val1 = fromUlong(q);
+
       char *v0 = hex(val0);
       char *v1 = hex(val1);
+
       printf("val0: %s\n",v0);
       printf("val1: %s\n",v1);
-    //  print_page();
       printf("========================\n");
+      printf("Line size: %d, bool: %d, uint: %d\n",LINE_SIZE,sizeof(bool),sizeof(uint));
+      print_page();
 
       Value and = op(val0,val1,AND,N);
       char *ah = hex(and);
       printf("AND: %s\n",ah);destroy(and);erase(ah);
+      // print_page();
 
       Value xor = op(val0,val1,XOR,N);
       char *xh = hex(xor);
       printf("XOR: %s\n",xh);destroy(xor);erase(xh);
+      // print_page();
 
       Value or = op(val0,val1,OR,N);
       char *oh = hex(or);
       printf("OR: %s\n",oh);destroy(or);erase(oh);
+      // print_page();
 
       Value negate = neg(val0,N);
       char *nh = hex(negate);
       printf("NEG: %s\n",nh);destroy(negate);erase(nh);
+      // print_page();
 
       Value shiftR = shift(val1, 9, R, N);
       char *rh = hex(shiftR);
       printf("shiftR: %s\n",rh);destroy(shiftR);erase(rh);
+      // print_page();
 
       Value shiftL = shift(val0, 7, L, N);
       char *lh = hex(shiftL);
       printf("shiftL: %s\n",lh);destroy(shiftL);erase(lh);
+      // print_page();
 
       Value _add = add(val0,val1,N);
       Value res0 = fromUlong(i+q);
       char *ad = hex(_add);
       char *adh = hex(res0);
       printf("ADD: %s == %s\n",ad,adh);
-      erase(ad);
-      erase(adh);
-      destroy(_add);
-      destroy(res0);
+      erase(ad);erase(adh);
+      destroy(_add);destroy(res0);
 
       Value _sub = sub(val0,val1,N);
       Value res1 = fromUlong(i-q);
       char *s = hex(_sub);
       char *sh = hex(res1);
       printf("SUB: %s == %s\n",s,sh);
-      erase(s);
-      erase(sh);
-      destroy(_sub);
-      destroy(res1);
-
+      erase(s);erase(sh);
+      destroy(_sub);destroy(res1);
 
       Value _mlt = mlt(val1,val0,N);
       Value res2 = fromUlong(i*q);
