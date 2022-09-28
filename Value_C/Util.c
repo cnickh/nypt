@@ -59,15 +59,15 @@ char *_hex(word value, uint len){
 
 word shrink(uint len, word value){
 
-  erase(value);
+
   word nvalue = draw(len);
 
   for(int i=0;i<len;i++){
     nvalue[i] = value[i];
   }
+  erase(value);
 
   return nvalue;
-
 }
 
 uint byteOrder(byte b){

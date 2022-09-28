@@ -17,6 +17,8 @@ void close();
 
 void *draw(uint len);
 
+bool check(line cur, uint len);
+
 void erase(void *drawing);
 
 void print_page();
