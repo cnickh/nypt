@@ -3,15 +3,16 @@
 
 #include "Types.h"
 #include "Value.h"
-#include <stdlib.h>
-#include <stdio.h>
-
+#include <stdlib.h> //malloc
+#include <stdio.h> //printf
 
 uint get_space();
 
 uint get_line_count();
 
-void new_page();
+int new_page();
+
+void seek_page(int page);
 
 void close();
 

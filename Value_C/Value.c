@@ -2,13 +2,6 @@
 
 Value add(Value a, Value b, bool inplace){
 
-  // if(a.sign!=b.sign){
-  //   Value nb = makeValue(b.value,b.len,flip(b.sign));
-  //   Value res = sub(a,nb);
-  //   destroy(nb);
-  //   return res;
-  // }
-
   Value carry, res, next_carry;
 
   if(inplace == Y){
@@ -37,13 +30,6 @@ Value add(Value a, Value b, bool inplace){
 }
 
 Value sub(Value a, Value b, bool inplace){
-
-  // if(a.sign!=b.sign){
-  //   Value nb = makeValue(b.value,b.len,flip(b.sign));
-  //   Value res = add(a,nb);
-  //   destroy(nb);
-  //   return res;
-  // }
 
   Value rnot,borrow,res,next_borrow;
   bool sign;
@@ -101,7 +87,7 @@ bool max_cmp(Value a, Value b){
     return B;
   }
 
-  uint aord, bord;
+  byte aord, bord;
 
   for(int i=a.len-1;i>=0;i--){
 
@@ -122,12 +108,6 @@ bool max_cmp(Value a, Value b){
 
 
 Value mlt(Value a, Value b, bool inplace){
-
-  // if(a.sign!=b.sign){
-  //   a = makeValue(a.value,a.len,N);
-  // } else {
-  //   a = makeValue(a.value,a.len,P);
-  // }
 
   Value res = emptyValue(a.len+b.len);
   Value fac0 = emptyValue(a.len+b.len);
@@ -221,9 +201,133 @@ Value pwr(Value a, Value b){
   return res;
 }
 
-Value lg(Value a, Value b){
-  Value res = emptyValue(1);
+Value mod(Value a, Value b){
+  Value temp;
+  Value div = cpy(b);
+  Value remainder = cpy(a);
 
+  uint len = wordOrder(a.len,a.value)-1;
+
+  for(int i=len;i>=0;i--){
+
+    temp = shift(div,i,R,N);
+
+    bool c = max_cmp(temp,remainder);
+
+    if(c!=A){
+
+      remainder = sub(remainder,temp,Y);
+
+    }
+
+    destroy(temp);
+  }
+
+  destroy(div);
+
+  return remainder;
+}
+
+Value pwr_mod(Value a, Value b, Value c){
+
+  Value res = fromUlong(1);
+  Value one = fromUlong(1);
+  Value two = fromUlong(2);
+  Value base = cpy(a);
+  Value exp = cpy(b);
+  Value temp;
+  Value old;
+
+  while(isZero(exp)!=Y){
+
+    temp = mod(exp,two);
+    if(max_cmp(temp,one)==E){
+
+        destroy(temp);
+        temp = mlt(res,base,N);
+        old = res;
+        res = mod(temp,c);
+        destroy(old);
+    }
+
+    destroy(temp);
+
+    temp = mlt(base,base,N);
+    old = base;
+    base = mod(temp,c);
+
+    destroy(old);
+    destroy(temp);
+
+    exp = shift(exp,1,L,Y);
+  }
+
+  destroy(one);
+  destroy(two);
+  destroy(exp);
+  destroy(base);
 
   return res;
+}
+
+Value square(Value a){
+
+  Value x = cpy(a);
+  Value c = emptyValue(1);
+  Value d = fromUlong(1);
+  Value temp;
+
+  d = shift(d,a.len,R,Y);
+
+  while(max_cmp(d,a) != B)
+    d = shift(d,2,L,Y);
+
+  while(isZero(d)!=Y){
+
+    temp = add(c,d,N);
+
+    if(max_cmp(temp,x) != A){
+
+      x = sub(x,temp,Y);
+
+      c = shift(c,1,L,Y);
+      c = add(c,d,Y);
+
+    }else{
+      c = shift(c,1,L,Y);
+    }
+
+    d = shift(d,2,L,Y);
+
+    destroy(temp);
+  }
+
+  destroy(x);
+  destroy(d);
+
+  return c;
+  // int32_t x = n;
+  //
+  // int32_t c = 0;
+  //
+  // int32_t d = 1 << 30;
+  //
+  // while (d > n)
+  //   d >>= 2;
+  //
+  // while (d != 0){
+  //
+  //   if (x >= c + d) {
+  //
+  //       x -= c + d;
+  //       c = (c >> 1) + d;
+  //
+  //   } else {  c >>= 1;  }
+  //
+  //   d >>= 2;
+  //
+  // }
+  //
+  // return c;
+
 }
