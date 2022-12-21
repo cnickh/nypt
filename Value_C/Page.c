@@ -23,7 +23,7 @@ uint get_line_count(){
   return count;
 }
 
-void new_page(){
+int new_page(){
   if(book == NULL){book = malloc(BOOK_SIZE*sizeof(void*));}
 
   page start = malloc(PAGE_SIZE);
@@ -33,6 +33,7 @@ void new_page(){
 
   pages++;
   book[pages] = start;
+  return pages;
 }
 
 void close(){
@@ -43,16 +44,10 @@ void close(){
 }
 
 void *draw(uint len){
-  //printf("Draw\n");
-  //print_page();
   if(pages == -1){printf("DERROR NO PAGE\n");return NULL;}
   page p = book[pages];
 
   line cur = p->head;
-
-  // while(cur->used != E){
-  //   cur = next(cur);
-  // }
 
   while(check(cur,len)==N){
     if(cur->used == E){break;}
@@ -61,8 +56,6 @@ void *draw(uint len){
 
   if(cur->used != E){
     cur->used = Y;
-    // printf("End - d0\n");
-    // print_page();
     return this(cur);
   }
 
@@ -75,14 +68,10 @@ void *draw(uint len){
 
   next(cur)->used = E;
 
-  //printf("End -d1\n");
-  //print_page();
   return this(cur);
 }
 
 bool check(line cur, uint len){
-
-
   if(
     (cur->used==N) && (len <= cur->len)
   ){
@@ -93,9 +82,6 @@ bool check(line cur, uint len){
 }
 
 void erase(void *drawing){
-  //printf("Erase\n");
-  //print_page();
-
 
   if(pages == -1){printf("EERROR NO PAGE\n");return;}
   page p = book[pages];
@@ -135,31 +121,20 @@ void erase(void *drawing){
 
   }
 
-  // printf("End - e\n");
-  // print_page();
 }
 
-// void heal(){
-//   if(pages == -1){printf("EERROR NO PAGE\n");return;}
-//   page p = book[pages];
-//
-//   line cur = p->head;
-//   line breakLine = cur;
-//
-//   while(cur->next->next!=NULL){
-//
-//     if(cur->used == Y){
-//       breakLine == NULL;
-//     }else{
-//       if(breakLine != NULL){breakLine = cur;}
-//     }
-//
-//     cur = cur->next;
-//   }
-//
-//   breakLine->next = NULL;
-//
-// }
+void seek_page(int page){
+  pages=page;
+}
+
+/*Shift memory to retake unused space*/
+void heal(){
+  if(pages == -1){printf("EERROR NO PAGE\n");return;}
+  page p = book[pages];
+
+  line cur = p->head;
+
+}
 
 void print_page(){
   if(pages == -1){printf("DERROR NO PAGE\n");return;}
@@ -167,6 +142,7 @@ void print_page(){
 
   uint i = 0;
   line cur = p->head;
+
   while(cur->used!=E){
 
     printf("<%c>[%d]->%s (%d)(%d)\n",cur->used,i,_hex(this(cur),cur->len),cur->len,this(cur));

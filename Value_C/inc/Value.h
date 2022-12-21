@@ -3,8 +3,7 @@
 
 #include "Page.h"
 #include "Types.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdio.h> //printf
 
 /*
 Utility Functions
@@ -43,11 +42,6 @@ Value fromUlong(long long num);
 
 Value cpy(Value a);
 
-// Value getRandomValue(unsigned int len);
-//
-// Value getPrimeValue(unsigned int len);
-
-
 /*
 Functions that operate on one or two words (byte arrays)
 @defined in Bit.c
@@ -75,11 +69,20 @@ Value mlt(Value a, Value b, bool inplace);
 Value dv(Value a, Value b);
 
 Value pwr(Value a, Value b);
+
+Value mod(Value a, Value b);
+
+Value pwr_mod(Value a, Value b, Value c);
+
+Value square(Value a);
+//https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)
+
+/** TODO **/
 //
-// Value lg(Value a, Value b, bool inplace);
-//
-// Value mod(Value a, Value b, bool inplace);
+// Value ds_lg(Value a, Value b, bool inplace);
 //
 // Value phi(Value a);
-
+//
+// Value gcd(Value a, Value b);
+//
 #endif

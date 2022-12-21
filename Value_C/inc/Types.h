@@ -42,11 +42,14 @@ typedef struct Value_t{
 #define BOOK_SIZE 64
 
 //number of bytes per page
-#define PAGE_SIZE 1024
+#define PAGE_SIZE 4096
 
 typedef struct line_t {
 
+/*Y-yes used, N-no not used, E-end of used memory*/
   bool used;
+
+/*Length in bytes of this line*/
   uint len;
 
 } *line;
