@@ -3,8 +3,8 @@
 
 typedef rsa_key_t {
 
-  Value public;
-  Value private;
+  Value public; //e
+  Value private; //d
   Value n;
 
 } rsa_key;

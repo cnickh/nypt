@@ -272,17 +272,25 @@ Value pwr_mod(Value a, Value b, Value c){
 
 Value square(Value a){
 
+  int i = 0;
+
   Value x = cpy(a);
   Value c = emptyValue(1);
   Value d = fromUlong(1);
   Value temp;
 
-  d = shift(d,a.len,R,Y);
+  uint ord = a.len*8;//wordOrder(a.len,a.value)+1;
+  d = shift(d,ord,R,Y);
 
-  while(max_cmp(d,a) != B)
+  while(max_cmp(d,a) == A)
     d = shift(d,2,L,Y);
 
   while(isZero(d)!=Y){
+
+    // char *h = hex(d);
+    // printf("[%d] %s \n",i,h);
+    // erase(h);
+    // i++;
 
     temp = add(c,d,N);
 
@@ -306,28 +314,5 @@ Value square(Value a){
   destroy(d);
 
   return c;
-  // int32_t x = n;
-  //
-  // int32_t c = 0;
-  //
-  // int32_t d = 1 << 30;
-  //
-  // while (d > n)
-  //   d >>= 2;
-  //
-  // while (d != 0){
-  //
-  //   if (x >= c + d) {
-  //
-  //       x -= c + d;
-  //       c = (c >> 1) + d;
-  //
-  //   } else {  c >>= 1;  }
-  //
-  //   d >>= 2;
-  //
-  // }
-  //
-  // return c;
 
 }

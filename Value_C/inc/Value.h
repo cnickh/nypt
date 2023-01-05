@@ -77,6 +77,8 @@ Value pwr_mod(Value a, Value b, Value c);
 Value square(Value a);
 //https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)
 
+int square_int(int a);
+
 /** TODO **/
 //
 // Value ds_lg(Value a, Value b, bool inplace);

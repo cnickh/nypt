@@ -42,7 +42,7 @@ typedef struct Value_t{
 #define BOOK_SIZE 64
 
 //number of bytes per page
-#define PAGE_SIZE 4096
+#define PAGE_SIZE 4194304 + 2743420
 
 typedef struct line_t {
 

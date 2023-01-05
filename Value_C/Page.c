@@ -40,6 +40,7 @@ void close(){
   for (uint i=0;i<pages;i++){
     free(book[i]);
   }
+  free(book);
   pages=-1;
 }
 
@@ -60,7 +61,7 @@ void *draw(uint len){
   }
 
   uint new_mem = LINE_SIZE+len+p->space;
-  if(new_mem > PAGE_SIZE){printf("[%d]PAGE FULL :( %d\n",pages,get_space());print_page();return NULL;}
+  if(new_mem > PAGE_SIZE){printf("[%d]PAGE FULL :( %d\n",pages,get_space());print_page();close();return NULL;}
   p->space = new_mem;
 
   cur->used = Y;
@@ -142,12 +143,15 @@ void print_page(){
 
   uint i = 0;
   line cur = p->head;
+  char *h;
 
   while(cur->used!=E){
+    h = _hex(this(cur),cur->len);
 
-    printf("<%c>[%d]->%s (%d)(%d)\n",cur->used,i,_hex(this(cur),cur->len),cur->len,this(cur));
+    printf("<%c>[%d]->%s (%d)(%d)\n",cur->used,i,h,cur->len,this(cur));
     i++;
 
+    free(h);
     cur = next(cur);
   }
 

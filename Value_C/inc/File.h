@@ -1,3 +1,6 @@
+#ifndef FILE_H
+#define FILE_H
+
 #include <stdio.h> //fopen, ... etc
 #include "Types.h"
 
@@ -21,3 +24,5 @@ bool write_string(FILE *fp, char *data);
 bool seek(FILE *fp, uint loc);
 
 bool close(FILE *fp);
+
+#endif
